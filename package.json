@@ -1,0 +1,32 @@
+{
+  "name": "ai-makeup-rating",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/genai": "^1.30.0",
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.2.3",
+    "next": "^14.0.0",
+    "openai": "^6.5.0",
+    "puppeteer": "^24.25.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tesseract.js": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}
