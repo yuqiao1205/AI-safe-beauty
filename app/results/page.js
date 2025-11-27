@@ -1,9 +1,4 @@
-'use client'
-
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-
-export const dynamic = 'force-dynamic';
 
 function renderResult(result) {
   if (!result) return null;
@@ -78,9 +73,8 @@ function renderResult(result) {
   );
 }
 
-export default function Results() {
-  const searchParams = useSearchParams();
-  const dataParam = searchParams.get('data');
+export default function Results({ searchParams }) {
+  const dataParam = searchParams.data;
 
   let result = null;
   if (dataParam) {
@@ -141,25 +135,20 @@ export default function Results() {
       </div>
 
       <div style={{ textAlign: 'center', margin: '2rem 0' }}>
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{
-            background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%)',
-            color: 'white',
-            border: 'none',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '25px',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontWeight: '600',
-            boxShadow: '0 4px 15px rgba(0, 123, 255, 0.3)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-          onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-        >
+        <Link href="#top" style={{
+          background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%)',
+          color: 'white',
+          textDecoration: 'none',
+          display: 'inline-block',
+          padding: '0.75rem 1.5rem',
+          borderRadius: '25px',
+          fontSize: '1rem',
+          fontWeight: '600',
+          boxShadow: '0 4px 15px rgba(0, 123, 255, 0.3)',
+          transition: 'all 0.3s ease'
+        }}>
           ↑ Back to Top
-        </button>
+        </Link>
       </div>
 
       <footer className="footer">
