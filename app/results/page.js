@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 function renderResult(result) {
   if (!result) return null;
 
