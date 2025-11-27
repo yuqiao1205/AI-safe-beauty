@@ -107,10 +107,10 @@ export default function Home() {
         </div>
         <div style={{ textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <Link href="/highrisk" style={{ color: 'var(--secondary-color)', textDecoration: 'underline', fontWeight: '500', fontSize: '1rem' }}>
+            <Link href="/highrisk" style={{ color: '#d32f2f', textDecoration: 'underline', fontWeight: '500', fontSize: '1rem' }}>
               ⚠️ High Risk Ingredients
             </Link>
-            <Link href="/goodingredients" style={{ color: 'var(--primary-color)', textDecoration: 'underline', fontWeight: '500', fontSize: '1rem' }}>
+            <Link href="/goodingredients" style={{ color: '#2e7d32', textDecoration: 'underline', fontWeight: '500', fontSize: '1rem' }}>
               🌿 Beneficial Ingredients
             </Link>
           </div>
@@ -118,7 +118,16 @@ export default function Home() {
       </div>
 
       {/* Unified Inputs Below */}
-      <div className="main-content" style={{ gridTemplateColumns: '1fr', maxWidth: '800px', margin: '0 auto' }}>
+      <div className="main-content" style={{
+        gridTemplateColumns: '1fr',
+        maxWidth: '800px',
+        margin: '0 auto',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(248,249,250,0.1) 100%)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '16px',
+        padding: '2rem',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.05)'
+      }}>
         <div className="input-section">
           <div className="feature-card analyzer-card">
             <div className="card-icon" style={{ fontSize: '4rem' }}>🚀</div>

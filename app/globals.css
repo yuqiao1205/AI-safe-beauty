@@ -256,7 +256,7 @@ body::before {
   -webkit-backdrop-filter: blur(20px);
   padding: 1.5rem;
   border-radius: var(--border-radius);
-  box-shadow: var(--glass-shadow);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   text-align: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 1px solid rgba(255,255,255,0.18);
@@ -281,7 +281,7 @@ body::before {
 
 .feature-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2), var(--glow);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12), var(--glow);
   background: rgba(255, 255, 255, 0.15);
 }
 
