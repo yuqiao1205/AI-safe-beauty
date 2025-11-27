@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { analyzeText, analyzeUrl, analyzeImage } from './actions';
 
 const INTRO = "Transform your beauty routine with cutting-edge AI technology. Instantly analyze cosmetic ingredients for safety risks through intelligent text parsing, advanced image recognition, and comprehensive URL scanning. Discover hidden dangers and make informed choices for healthier skin.";
@@ -9,114 +10,50 @@ export default function Home() {
   const [textInput, setTextInput] = useState('');
   const [urlInput, setUrlInput] = useState('');
   const [file, setFile] = useState(null);
-  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const router = useRouter();
 
-  const handleTextAnalysis = async () => {
-    if (!textInput.trim()) {
-      alert('Please enter text to analyze');
+  const handleClear = () => {
+    setTextInput('');
+    setUrlInput('');
+    setFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleAnalyze = async () => {
+    if (!textInput.trim() && !urlInput.trim() && !file) {
+      alert('Please provide text, a URL, or an image to analyze.');
       return;
     }
     setLoading(true);
     try {
-      const data = await analyzeText(textInput);
-      setResult(data);
-      setTextInput('');
+      let data;
+      if (file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        data = await analyzeImage(formData);
+      } else if (textInput.trim()) {
+        data = await analyzeText(textInput.trim());
+      } else if (urlInput.trim()) {
+        data = await analyzeUrl(urlInput.trim());
+      }
+      if (data?.error) {
+        alert(data.error);
+        return;
+      }
+      if (!data) {
+        alert('No result returned');
+        return;
+      }
+      router.push(`/results?data=${encodeURIComponent(JSON.stringify(data))}`);
+      handleClear();
     } catch (error) {
       console.error('Error:', error);
-      alert('Error analyzing text');
+      alert('Error analyzing input');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  };
-
-  const handleUrlAnalysis = async () => {
-    if (!urlInput.trim()) {
-      alert('Please enter a URL');
-      return;
-    }
-    setLoading(true);
-    try {
-      const data = await analyzeUrl(urlInput);
-      setResult(data);
-      setUrlInput('');
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error analyzing URL');
-    }
-    setLoading(false);
-  };
-
-  const handleImageAnalysis = async () => {
-    if (!file) {
-      alert('Please select an image');
-      return;
-    }
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('image', file);
-      const data = await analyzeImage(formData);
-      setResult(data);
-      setFile(null);
-      fileInputRef.current.value = '';
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error analyzing image');
-    }
-    setLoading(false);
-  };
-
-  const renderResult = () => {
-    if (!result) return null;
-
-    return (
-      <div className="result">
-        <h2>Analysis Result</h2>
-        <h3>Overall Score: {result.overall_score}</h3>
-
-        {result.high_risk?.length > 0 && (
-          <div className="risk-section high-risk">
-            <h4>🔴 High Risk</h4>
-            {result.high_risk.map((item, index) => (
-              <div key={`high-${index}`}>
-                <strong>{item.name}</strong>
-                <p>{item.summary}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {result.medium_risk?.length > 0 && (
-          <div className="risk-section medium-risk">
-            <h4>🟡 Medium Risk</h4>
-            {result.medium_risk.map((item, index) => (
-              <div key={`medium-${index}`}>
-                <strong>{item.name}</strong>
-                <p>{item.summary}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {result.low_risk?.length > 0 && (
-          <div className="risk-section low-risk">
-            <h4>🟢 Low Risk</h4>
-            {result.low_risk.map((item, index) => (
-              <div key={`low-${index}-${typeof item === 'string' ? item : item.name}`}>
-                <strong>{typeof item === 'string' ? item : item.name}</strong>
-                {typeof item !== 'string' && <p>{item.summary}</p>}
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="explanation">
-          <h4>Overall Explanation</h4>
-          <p>{result.explanation}</p>
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -125,6 +62,7 @@ export default function Home() {
         <div className="hero-content">
           <div className="hero-left">
             <h1>Discover Safe Beauty</h1>
+         
             <p>{INTRO}</p>
           </div>
           <div className="hero-right">
@@ -160,30 +98,34 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="main-content">
+      {/* Compact Ready Banner */}
+      <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', padding: '1rem 2rem', textAlign: 'center', maxWidth: '900px', margin: '1rem auto', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.18)' }}>
+        <h3 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', margin: '0 0 0.5rem 0' }}>🔍 Unlock the secrets behind every Ingredients — instantly and effortlessly.</h3>
+        {/* <p style={{ fontSize: '1rem', margin: '0', opacity: '0.8' }}>Enter your ingredients below to get safety insights</p> */}
+      </div>
+
+      {/* Unified Inputs Below */}
+      <div className="main-content" style={{ gridTemplateColumns: '1fr', maxWidth: '800px', margin: '0 auto' }}>
         <div className="input-section">
-          <div className="features">
-            <div className="feature-card">
-              <div className="card-icon">📝</div>
-              <h3>Analyze Text</h3>
-              <p>Paste your ingredient list for instant safety analysis</p>
+          <div className="feature-card analyzer-card">
+            <div className="card-icon" style={{ fontSize: '4rem' }}>🚀</div>
+            <h3>Start Your Analysis</h3>
+            <p>Enter ingredients, upload an image, or provide a URL</p>
+
+            {/* Text Input */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--primary-color)' }}>📝 Paste Ingredients Below</label>
               <textarea
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
-                placeholder="Enter ingredient list..."
+                placeholder="Paste your ingredient list here..."
+                style={{ minHeight: '80px' }}
               />
-              <div className="button-group">
-                <button className="clear-btn" onClick={() => setTextInput('')}>Clear</button>
-                <button onClick={handleTextAnalysis} disabled={loading}>
-                  {loading ? 'Analyzing...' : 'Analyze Text'}
-                </button>
-              </div>
             </div>
 
-            <div className="feature-card">
-              <div className="card-icon">🖼️</div>
-              <h3>Analyze Image</h3>
-              <p>Upload product images to extract and analyze ingredients</p>
+            {/* Image Upload */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--primary-color)' }}>🖼️ Upload Ingredients Image</label>
               <input
                 type="file"
                 accept="image/*"
@@ -191,45 +133,27 @@ export default function Home() {
                 className="file-input"
                 ref={fileInputRef}
               />
-              {file && <p>Selected: {file.name}</p>}
-              <div className="button-group">
-                <button className="clear-btn" onClick={() => { setFile(null); fileInputRef.current.value = ''; }}>Clear</button>
-                <button onClick={handleImageAnalysis} disabled={loading}>
-                  {loading ? 'Analyzing...' : 'Analyze Image'}
-                </button>
-              </div>
+              {file && <p style={{ color: 'var(--secondary-color)', fontWeight: '500' }}>Selected: {file.name}</p>}
             </div>
 
-            <div className="feature-card">
-              <div className="card-icon">🔗</div>
-              <h3>Analyze URL</h3>
-              <p>Provide a product page URL for comprehensive analysis</p>
+            {/* URL Input */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--primary-color)' }}>🔗 Paste Product URL</label>
               <textarea
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="Enter product page URL..."
+                style={{ minHeight: '80px' }}
               />
-              <div className="button-group">
-                <button className="clear-btn" onClick={() => setUrlInput('')}>Clear</button>
-                <button onClick={handleUrlAnalysis} disabled={loading}>
-                  {loading ? 'Analyzing...' : 'Analyze URL'}
-                </button>
-              </div>
+            </div>
+
+            <div className="button-group" style={{ justifyContent: 'center', gap: '1rem' }}>
+              <button className="clear-btn" onClick={handleClear} disabled={loading}>Clear All</button>
+              <button onClick={handleAnalyze} disabled={loading}>
+                {loading ? 'Analyzing and holding on...' : '🚀 Start Analyze'}
+              </button>
             </div>
           </div>
-        </div>
-
-        <div className="result-section">
-          {result ? renderResult() : (
-            <div className="result-placeholder">
-              <div className="placeholder-content">
-                <div className="placeholder-icon">📊</div>
-                <h3>Analysis Results</h3>
-                <p>Result will be shown here</p>
-                <p className="placeholder-hint">Choose an analysis method on the left to get started</p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

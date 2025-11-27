@@ -46,7 +46,7 @@ body::before {
 .hero {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, #ba68c8 100%);
   color: white;
-  padding: 3rem 2rem 2rem;
+  padding: 2rem 2rem 1rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -84,7 +84,7 @@ body::before {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: center;
   animation: fadeInUp 1.2s ease-out;
 }
@@ -149,7 +149,7 @@ body::before {
 }
 
 .hero h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
   text-shadow: 0 4px 8px rgba(0,0,0,0.4);
@@ -160,7 +160,7 @@ body::before {
 }
 
 .hero p {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 300;
   opacity: 0.95;
   max-width: 700px;
@@ -415,6 +415,30 @@ button:disabled {
   font-weight: 600;
 }
 
+details summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::marker {
+  display: none;
+}
+
+details summary::before {
+  content: '▶ ';
+  font-size: 1.2em;
+  margin-right: 0.5rem;
+}
+
+details[open] summary::before {
+  content: '▼ ';
+}
+
 .explanation {
   background: #f8f9fa;
   padding: 1.5rem;
@@ -554,6 +578,15 @@ button:disabled {
   }
   50% {
     opacity: 0.7;
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.3);
+  }
+  to {
+    text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 0 30px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.2);
   }
 }
 
