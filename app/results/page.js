@@ -6,6 +6,15 @@ import Link from 'next/link';
 function renderResult(result) {
   if (!result) return null;
 
+  if (result.message) {
+    return (
+      <div className="result">
+        <h2>Analysis Result</h2>
+        <p style={{ fontSize: '1.2rem', color: 'var(--primary-color)' }}>{result.message}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="result">
       <h2>Analysis Result</h2>

@@ -58,6 +58,19 @@ async function analyzeProduct(rawText) {
 
   const prompt = `You are a cosmetic safety expert. Analyze ingredients and return a JSON response with risk assessments.
 
+First, check if the input contains actual cosmetic ingredient names. If the input does not contain recognizable cosmetic ingredients (like water, glycerin, etc.) or contains questions/unrelated text, do not analyze and return:
+
+{
+  "message": "Please provide cosmetic ingredient names, then I can give you a safety analysis.",
+  "overall_score": "",
+  "high_risk": [],
+  "medium_risk": [],
+  "low_risk": [],
+  "explanation": ""
+}
+
+If the input contains cosmetic ingredients, proceed with analysis:
+
 For each ingredient below, write a JSON object with:
 - name: the ingredient name
 - summary: 1-2 sentence explanation of its effect or safety concern

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { analyzeText, analyzeUrl, analyzeImage } from './actions';
 
 const INTRO = "Transform your beauty routine with cutting-edge AI technology. Instantly analyze cosmetic ingredients for safety risks through intelligent text parsing, advanced image recognition, and comprehensive URL scanning. Discover hidden dangers and make informed choices for healthier skin.";
@@ -101,7 +102,10 @@ export default function Home() {
       {/* Compact Ready Banner */}
       <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', padding: '1rem 2rem', textAlign: 'center', maxWidth: '900px', margin: '1rem auto', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.18)' }}>
         <h3 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', margin: '0 0 0.5rem 0' }}>🔍 Unlock the secrets behind every Ingredients — instantly and effortlessly.</h3>
-        {/* <p style={{ fontSize: '1rem', margin: '0', opacity: '0.8' }}>Enter your ingredients below to get safety insights</p> */}
+        <p style={{ fontSize: '1rem', margin: '0 0 1rem 0', opacity: '0.8' }}>Enter your ingredients below to get safety insights</p>
+        <Link href="/highrisk" style={{ color: 'var(--secondary-color)', textDecoration: 'underline', fontWeight: '500' }}>
+          View High Risk Ingredients Collection →
+        </Link>
       </div>
 
       {/* Unified Inputs Below */}
