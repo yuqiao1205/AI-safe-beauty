@@ -100,12 +100,21 @@ export default function Home() {
       </div>
 
       {/* Compact Ready Banner */}
-      <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', padding: '1rem 2rem', textAlign: 'center', maxWidth: '900px', margin: '1rem auto', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.18)' }}>
-        <h3 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', margin: '0 0 0.5rem 0' }}>🔍 Unlock the secrets behind every Ingredients — instantly and effortlessly.</h3>
-        <p style={{ fontSize: '1rem', margin: '0 0 1rem 0', opacity: '0.8' }}>Enter your ingredients below to get safety insights</p>
-        <Link href="/highrisk" style={{ color: 'var(--secondary-color)', textDecoration: 'underline', fontWeight: '500' }}>
-          View High Risk Ingredients Collection →
-        </Link>
+      <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', padding: '1rem 2rem', maxWidth: '800px', margin: '1rem auto', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.18)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ fontSize: '1.5rem', color: 'var(--primary-color)', margin: '0 0 0.5rem 0' }}>🔍 Unlock the secrets behind every Ingredients</h3>
+          {/* <p style={{ fontSize: '1rem', margin: '0', opacity: '0.8' }}>Enter your ingredients below to get safety insights</p> */}
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <Link href="/highrisk" style={{ color: 'var(--secondary-color)', textDecoration: 'underline', fontWeight: '500', fontSize: '1rem' }}>
+              ⚠️ High Risk Ingredients
+            </Link>
+            <Link href="/goodingredients" style={{ color: 'var(--primary-color)', textDecoration: 'underline', fontWeight: '500', fontSize: '1rem' }}>
+              🌿 Beneficial Ingredients
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Unified Inputs Below */}

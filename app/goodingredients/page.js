@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link';
-import highRiskIngredients from '../highRiskData';
+import ingredientsData from '../goodIngredientsData';
 
-export default function HighRisk() {
+export default function GoodIngredients() {
   return (
     <div>
       <div className="hero">
@@ -12,8 +12,8 @@ export default function HighRisk() {
             <Link href="/" className="back-button" style={{ display: 'block', marginBottom: '2rem', fontSize: '1.1rem' }}>
               ← Back to Home
             </Link>
-            <h1>High Risk Ingredients Collection</h1>
-            <p>Comprehensive list of ingredients with known safety concerns</p>
+            <h1>Beneficial Ingredients Collection</h1>
+            <p>Discover effective and safe skincare ingredients</p>
           </div>
         </div>
       </div>
@@ -21,14 +21,14 @@ export default function HighRisk() {
       <div className="main-content" style={{ gridTemplateColumns: '1fr', maxWidth: '1000px', margin: '0 auto' }}>
         <div className="result-section">
           <div className="result">
-            <h2>⚠️ High Risk Cosmetic Ingredients</h2>
+            <h2>🌿 Beneficial Skincare Ingredients</h2>
             <p style={{ marginBottom: '2rem', color: '#666' }}>
-              This collection lists ingredients that have been identified with potential safety concerns based on scientific research and regulatory assessments.
-              Always consult with healthcare professionals for personal advice.
+              This collection highlights proven, beneficial ingredients commonly used in skincare.
+              Always patch test and consult professionals for your specific skin needs.
             </p>
 
             <div style={{ display: 'grid', gap: '1.5rem' }}>
-              {highRiskIngredients.map((ingredient, index) => (
+              {ingredientsData.map((ingredient, index) => (
                 <div
                   key={index}
                   style={{
@@ -41,18 +41,18 @@ export default function HighRisk() {
                   }}
                 >
                   <details>
-                    <summary style={{ cursor: 'pointer', fontWeight: 'bold', color: '#d32f2f', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
-                      {ingredient.name} ({ingredient.risks.length} risks)
+                    <summary style={{ cursor: 'pointer', fontWeight: 'bold', color: '#2e7d32', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
+                      {ingredient.name} ({ingredient.benefits.length} benefits)
                     </summary>
-                    <p style={{ color: 'var(--primary-color)', fontWeight: '500', margin: '0 0 1rem 0' }}>
-                      Type: {ingredient.type}
+                    <p style={{ color: '#666', fontSize: '0.9rem', margin: '0 0 0.5rem 0' }}>
+                      {ingredient.chinese} • {ingredient.type}
                     </p>
                     <div>
-                      <h4 style={{ color: '#666', margin: '0 0 0.5rem 0' }}>Known Risks:</h4>
+                      <h4 style={{ color: '#2e7d32', margin: '0 0 0.5rem 0' }}>Benefits:</h4>
                       <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-                        {ingredient.risks.map((risk, riskIndex) => (
-                          <li key={riskIndex} style={{ marginBottom: '0.25rem', color: '#555' }}>
-                            {risk}
+                        {ingredient.benefits.map((benefit, benefitIndex) => (
+                          <li key={benefitIndex} style={{ marginBottom: '0.25rem', color: '#555' }}>
+                            {benefit}
                           </li>
                         ))}
                       </ul>
